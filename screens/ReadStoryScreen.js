@@ -1,23 +1,76 @@
 import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View ,FlatList, Alert} from 'react-native';
+import db from '../config'
 
-export default class WriteStoryScreen extends React.Component{
+export default class ReadStoryScreen extends React.Component {
+  constructor(){
+    super();
+    this.state ={
+      allStories:[]
+    }
+  }
+  componentDidMount(){
+    this.retrieveStories()
+  }
+
+  retrieveStories=()=>{
+    try {
+      var allStories= []
+      var stories = db.collection("stories")
+        .get().then((querySnapshot)=> {
+          querySnapshot.forEach((doc)=> {
+              // doc.data() is never undefined for query doc snapshots
+              
+              allStories.push(doc.data())
+              console.log('this are the stories',allStories)
+          })
+          this.setState({allStories})
+        })
+    }
+    catch (error) {
+      Alert.alert(error, "No Stories");
+    }
+  };
+
     render(){
         return(
-          <SafeAreaProvider>
-            <View style={styles.container}>
-                <Text>Read story</Text>
+            <View>
+                 <FlatList
+                    data={this.state.allStories}
+                    renderItem={({ item }) => (
+                      <View style={styles.itemContainer}>
+                        <Text>Title: {item.title}</Text>
+                    <Text>Author : {item.author}</Text>
+                      </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                    />
             </View>
-            </SafeAreaProvider>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-      },
-})
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },item: {
+    backgroundColor: 'pink',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+   itemContainer: {
+    height: 80,
+    width:'100%',
+    borderWidth: 2,
+    borderColor: 'pink',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  }
+});

@@ -1,14 +1,14 @@
 import firebase from 'firebase'
 require('@firebase/firestore')
 
-var firebaseConfig = {
-    apiKey: "AIzaSyB8K7ly4j9inNooSXwm4cWKwabVe9iPtCc",
-    authDomain: "story-hub-4c79f.firebaseapp.com",
-    projectId: "story-hub-4c79f",
-    storageBucket: "story-hub-4c79f.appspot.com",
-    messagingSenderId: "928114166305",
-    appId: "1:928114166305:web:4ca424ef6f253d3c10b160"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyA0hCRcul5xnIy1jnSqldAGaOsrhJARuJ0",
+  authDomain: "story-hub-1c72c.firebaseapp.com",
+  projectId: "story-hub-1c72c",
+  storageBucket: "story-hub-1c72c.appspot.com",
+  messagingSenderId: "694452336057",
+  appId: "1:694452336057:web:221943a2d381b2c1f53268"
+};
 
   firebase.initializeApp(firebaseConfig);
   export default firebase.firestore();
